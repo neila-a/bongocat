@@ -79,3 +79,15 @@ bool init();
 
 void draw();
 }; // namespace custom
+/*
+void msg(const char* info) {
+	// 基于当前系统的当前日期/时间	
+	time_t now = time(0);
+	// 把 now 转换为字符串形式
+	char* dt = ctime(&now);
+	printf("[");
+	printf(dt);
+	printf("]Bongo cat: ");
+	printf(info);
+	printf("\n");
+}*/

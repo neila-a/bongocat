@@ -5,6 +5,7 @@
 #endif
 
 sf::RenderWindow window;
+sf::Image icon;
 
 #if defined(__unix__) || defined(__unix)
 int main(int argc, char ** argv) {
@@ -12,13 +13,19 @@ int main(int argc, char ** argv) {
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 #endif
 
-    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bongo Cat", sf::Style::Titlebar | sf::Style::Close);
-    window.setFramerateLimit(MAX_FRAMERATE);
+    	window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Bongo Cat", sf::Style::Titlebar | sf::Style::Close);
+    	/*msg("窗口已创建。");*/
+    	printf("[Bongo Cat]窗口已创建。\n");
+	icon.loadFromFile("files/icon.jpg"); 
+    	printf("[Bongo Cat]图标已导入。\n");
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr()); 
+    	printf("[Bongo Cat]图标已设置。\n");
+    	window.setFramerateLimit(MAX_FRAMERATE);
 
-    // loading configs
-    while (!data::init()) {
-        continue;
-    }
+    	// loading configs
+    	while (!data::init()) {
+        	continue;
+    	}
 
     // initialize input
     if (!input::init()) {
@@ -32,30 +39,31 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
         sf::Event event;
         while (window.pollEvent(event)) {
             switch (event.type) {
-            case sf::Event::Closed:
-                window.close();
-                break;
+            	case sf::Event::Closed:
+                	window.close();
+    			printf("[Bongo Cat]窗口已关闭。\n");
+                	break;
 
-            case sf::Event::KeyPressed:
-                // get reload config prompt
-                if (event.key.code == sf::Keyboard::R && event.key.control) {
-                    if (!is_reload) {
-                        while (!data::init()) {
-                            continue;
-                        }
-                    }
-                    is_reload = true;
-                    break;
-                }
+            	case sf::Event::KeyPressed:
+                	// get reload config prompt
+                	if (event.key.code == sf::Keyboard::R && event.key.control) {
+                    		if (!is_reload) {
+                        		while (!data::init()) {
+                            			continue;
+                        		}
+                    		}
+                    		is_reload = true;
+                    		break;
+                	}
 
-                // toggle joystick debug panel
-                if (event.key.code == sf::Keyboard::D && event.key.control) {
-                    is_show_input_debug = !is_show_input_debug;
-                    break;
-                }
+                	// toggle joystick debug panel
+                	if (event.key.code == sf::Keyboard::D && event.key.control) {
+                    		is_show_input_debug = !is_show_input_debug;
+                    		break;
+                	}
 
-            default:
-                is_reload = false;
+            	default:
+                	is_reload = false;
             }
         }
 
@@ -93,6 +101,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
     }
 
     input::cleanup();
+    printf("\n");
     return 0;
 }
 
